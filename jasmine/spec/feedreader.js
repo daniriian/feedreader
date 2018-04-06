@@ -82,10 +82,13 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-        it("has at least 1 entry after loadFeed function is called", function(done) {
-            var numEntries = $('entry').length;
+        beforeEach(function(done) {
+            loadFeed(0, done);
+        });
+
+        it("has at least 1 entry after loadFeed function is called", function() {
+            var numEntries = $('.entry').length;
             expect(numEntries).toBeGreaterThan(0);
-            done();
         });
     });
 
@@ -98,7 +101,7 @@ $(function() {
         var initFeedSelection;
         beforeEach(function(done) {
             loadFeed(0, function() {
-                initFeedSelection = $('.feed').HTML;
+                initFeedSelection = $('.feed').html();
 
                 loadFeed(1, function() {
                     done();
@@ -106,8 +109,8 @@ $(function() {
             });
         });
 
-        it('feed content changes', function() {
-            var newFeedSelection = $('.feed').HTML;
+        it('feed content changes', function(done) {
+            var newFeedSelection = $('.feed').html();
             expect(initFeedSelection).not.toBe(newFeedSelection);
             done();
         });
